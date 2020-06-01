@@ -31,7 +31,8 @@ def my_tokenizer(s):
     return tokens
 
 
-positive_reviews = ["Rajesh is a good boy"]
+positive_reviews = [
+    'Awesome onida 1.5Ton AC flipkart delivered product in timely and installations also done in next day.I buy 25k rupees onida ac is best price in flikart, I satisfied.']
 # create a word-to-index map so that we can create our word-frequency vectors later
 # let's also save the tokenized versions so we don't have to tokenize again later
 word_index_map = {}
@@ -83,7 +84,17 @@ print("#########", X)
 filename = 'finalized_model.sav'
 
 loaded_model = pickle.load(open(filename, 'rb'))
-preds = loaded_model.predict(X)
-# # preds1 = model.predict(['Good', 'boy'])
-print('!@#!#@R@#%$#', preds)
-# P = model.predict_proba(X)[:, 1]  # p(y = 1 | x)
+# print('Loaded modal:: ', loaded_model)
+threshold = 0.5
+
+for word, index in iteritems(word_index_map):
+    weight = loaded_model.coef_[0][index]
+    print('WOrd:: ', word, weight)
+    if weight > threshold or weight < -threshold:
+        print(word, weight)
+
+
+# preds = loaded_model.predict(X)
+# # # preds1 = model.predict(['Good', 'boy'])
+# print('!@#!#@R@#%$#', preds)
+# # P = model.predict_proba(X)[:, 1]  # p(y = 1 | x)
